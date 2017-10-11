@@ -17,6 +17,7 @@ module.exports = function jsonBundler(opts) {
   function gatherJson(chunc, enc, cb) {
     var localePath = path.relative(chunc.base, path.dirname(chunc.path)).replace(new RegExp(omit, 'g'), '');
 
+    localePath = localePath.replace( /\\/g, '/' );
     // remove first and last slash
     localePath = localePath.replace(/^\/|\/$/g, '');
     var fileName = path.basename(chunc.path);
