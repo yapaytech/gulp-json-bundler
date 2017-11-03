@@ -6,6 +6,15 @@ var File = require('vinyl');
 var deepAssign = require('deep-assign');
 var path = require('path');
 
+const tryjson = (val) =>  {
+  try {
+    return JSON.parse(val)
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+}
+
 module.exports = function jsonBundler(opts) {
   opts = opts || {};
   var master = opts.master || '';
@@ -22,7 +31,7 @@ module.exports = function jsonBundler(opts) {
     localePath = localePath.replace(/^\/|\/$/g, '');
     var fileName = path.basename(chunc.path);
     var content = {};
-    objectPath.set(content, localePath.replace(/\//g, '.'), JSON.parse(chunc.contents));
+    objectPath.set(content, localePath.replace(/\//g, '.'), tryjson(chunc.contents));
 
     contents[fileName] = contents[fileName] || {};
     deepAssign(contents[fileName], content);
